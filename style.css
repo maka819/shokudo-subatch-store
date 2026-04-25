@@ -14,14 +14,14 @@
 }
 
 body {
-    /* 日本語フォントスタック [2] */
+    /* 日本語フォントスタック */
     font-family: "Hiragino Kaku Gothic ProN", "Hiragino Kaku Gothic Pro", "Meiryo", "MS PGothic", sans-serif;
     color: var(--text-main);
     line-height: 1.5;
     background-color: #fff;
 }
 
-/* ヘッダー [4] */
+/* ヘッダー */
 .global-header {
     border-bottom: 1px solid var(--border-color);
     padding: 15px 20px;
@@ -57,7 +57,7 @@ body {
     padding: 20px;
 }
 
-/* ヒーローセクション (2カラム) [3] */
+/* ヒーローセクション (2カラム) */
 .hero-section {
     display: grid;
     grid-template-columns: 1fr;
@@ -71,7 +71,7 @@ body {
     }
 }
 
-/* ギャラリー [5] */
+/* ギャラリー */
 .slider-viewport {
     position: relative;
     overflow: hidden;
@@ -181,7 +181,7 @@ body {
 .points-info { margin-bottom: 30px; font-size: 0.9rem; }
 .gold-text { color: var(--gold); font-weight: bold; }
 
-/* ボタン [6] */
+/* ボタン */
 .btn {
     width: 100%;
     padding: 18px;
@@ -222,7 +222,7 @@ body {
     margin-bottom: 40px;
 }
 
-/* スペック表 [7] */
+/* スペック表 */
 .details-section h2 { border-bottom: 2px solid var(--text-main); padding-bottom: 10px; margin-bottom: 20px; }
 
 .specs-table {
@@ -243,7 +243,7 @@ body {
     border-bottom: 1px solid var(--border-color);
 }
 
-/* モバイル用スティッキーフッター [8] */
+/* モバイル用スティッキーフッター */
 .mobile-sticky-footer {
     display: none; /* デスクトップでは非表示 */
     position: fixed;

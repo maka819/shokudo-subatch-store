@@ -35,6 +35,8 @@ class MediaCarousel {
     }
 
     render() {
+
+        if (!this.inner || !this.thumbContainer) return; // 要素がない場合は何もしない
         // スライド生成
         this.inner.innerHTML = this.data.map(item => `
             <div class="slide">
