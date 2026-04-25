@@ -137,33 +137,47 @@ document.addEventListener('DOMContentLoaded', () => {
     if (galleryEl) {
         new MediaCarousel(galleryEl, galleryData);
     }
-    
+
+    const stickyFooter = document.querySelector('.mobile-sticky-footer');
     const wishlistBtn = document.querySelector('.btn-secondary');
 
-        if (wishlistBtn) {
-            wishlistBtn.addEventListener('click', function(e) {
-                // 現在「追加済み」かどうかを判定
-                const isAdded = this.classList.contains('is-added');
+    if (stickyFooter) {
+        window.addEventListener('scroll', () => {
+            // window.innerHeight (現在の画面の高さ) を超えたらクラスを付与
+            if (window.scrollY > window.innerHeight) {
+                stickyFooter.classList.add('is-visible');
+            } else {
+                stickyFooter.classList.remove('is-visible');
+            }
+        }, { passive: true }); // パフォーマンス向上のためのオプション
+    }
 
-                if (!isAdded) {
-                    // 追加処理
-                    this.classList.add('is-added');
-                    this.textContent = '❤ ほしいものリストに追加済';
-                    createHeartEffect(e.clientX, e.clientY);
-                
-                } else {
-                    // 解除処理
-                    this.classList.remove('is-added');
-                    this.textContent = 'ほしいものリストに追加';
-                }
-            });
-        }
 
-    const buyButton = document.querySelector('.btn-primary');
-    if (buyButton) {
-        buyButton.addEventListener('click', () => {
-            alert('この商品は食堂常連客のみの限定コンテンツです。店長の許可を得てから再度お試しください。');
+    if (wishlistBtn) {
+        wishlistBtn.addEventListener('click', function(e) {
+            // 現在「追加済み」かどうかを判定
+            const isAdded = this.classList.contains('is-added');
+
+            if (!isAdded) {
+                // 追加処理
+                this.classList.add('is-added');
+                this.textContent = '❤ ほしいものリストに追加済';
+                createHeartEffect(e.clientX, e.clientY);
+            
+            } else {
+                // 解除処理
+                this.classList.remove('is-added');
+                this.textContent = 'ほしいものリストに追加';
+            }
         });
     }
+
+    const buyButtons = document.querySelectorAll('.btn-primary');
+    
+    buyButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            alert('この商品は食堂常連客のみの限定コンテンツです。店長の許可を得てから再度お試しください。');
+        });
+    });
 });
 
