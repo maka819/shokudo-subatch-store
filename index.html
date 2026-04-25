@@ -20,7 +20,7 @@
 
 <body>
     <header class="global-header">
-        <div class="header-inner">
+        <div class="header-inner l-container">
             <div class="logo">
                 <a href="#">
                     <span class="logo-red">My Subatch</span> <span class="logo-gray">Store</span>
@@ -41,19 +41,31 @@
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                     </svg>
                 </div>
-                <div class="menu-icon" aria-label="メニュー">
+                <div class="menu-icon" id="menu-trigger" aria-label="メニュー" aria-expanded="false" aria-controls="global-nav">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="21" y2="6" class="line-top"></line>
+                        <line x1="3" y1="12" x2="21" y2="12" class="line-mid"></line>
+                        <line x1="3" y1="18" x2="21" y2="18" class="line-bottom"></line>
                     </svg>
                 </div>
 
             </nav>
         </div>
     </header>
-
-    <main class="product-container">
+    <nav id="global-nav" class="nav-drawer" aria-hidden="true">
+        <div class="drawer-header">
+            <span class="drawer-title">外部リンク</span>
+        </div>
+        <ul class="drawer-list">
+            <li><a href="https://bakkerfly.github.io/secret-v2x9-bunny-diner/" target="_blank" rel="noopener noreferrer" class="drawer-link">バニーダイナー非公式サイト</a></li>
+            <li><a href="#" class="drawer-link">STEEL非公式サイト</a></li>
+        </ul>
+        <div class="drawer-footer">
+            <p class="drawer-note">※リンク先は外部サイト(フィクション)です。</p>
+        </div>
+    </nav>
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <main class="product-container l-container">
         <section class="hero-section">
             <div class="media-gallery">
                 <div class="slider-viewport">
@@ -187,11 +199,10 @@
     </main>
 
     <footer class="global-footer">
-        <div class="footer-inner">
+        <div class="footer-inner l-container">
             <p>&copy; shokudo 2026 subatch. (Parody)</p>
         </div>
     </footer>
-
     <div class="mobile-sticky-footer">
         <button class="btn btn-primary">カートに入れる</button>
     </div>

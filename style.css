@@ -5,6 +5,8 @@
     --bg-gray: #f8f8f8;
     --border-color: #E6E6E6;
     --gold: #ce9c00;
+    --max-content-width: 1200px;
+    --container-padding: 40px;
 }
 
 * {
@@ -24,7 +26,7 @@ body {
 /* ヘッダー */
 .global-header {
     border-bottom: 1px solid var(--border-color);
-    padding: 15px 20px;
+    padding: 15px 0;
     position: sticky;
     top: 0;
     background: #fff;
@@ -32,8 +34,6 @@ body {
 }
 
 .header-inner {
-    max-width: 1200px;
-    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -50,13 +50,6 @@ body {
 
 .header-nav { display: flex; gap: 20px; font-size: 1.2rem; cursor: pointer; }
 
-/* コンテナ */
-.product-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
 /* ヒーローセクション (2カラム) */
 .hero-section {
     display: grid;
@@ -68,6 +61,9 @@ body {
 @media (min-width: 768px) {
    .hero-section {
         grid-template-columns: 1.5fr 1fr; /* デスクトップの2次元レイアウト */
+    }
+    .l-container {
+        --container-padding: 20px; /* モバイルでは余白を狭くする  */
     }
 }
 
@@ -252,7 +248,7 @@ body {
     background: #fff;
     padding: 10px 20px;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    z-index: 101;
+    z-index: 1;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s ease, visibility 0.4s;
@@ -272,7 +268,7 @@ body {
 
 .global-footer {
     background: var(--bg-gray);
-    padding: 40px 20px;
+    padding: 40px 0;
     text-align: center;
     margin-top: 100px;
     color: var(--text-sub);
@@ -285,7 +281,7 @@ body {
     font-size: 1.5rem;
     pointer-events: none;
     animation: heart-fly 0.8s ease-out forwards;
-    z-index: 100;
+    z-index: 2;
 }
 
 @keyframes heart-fly {
@@ -338,4 +334,112 @@ body {
 .header-nav svg {
     width: 22px; /* アイコンの視覚的な大きさを調整 */
     height: 22px;
+}
+
+/* アイコンのアニメーション設定  */
+.menu-icon {
+    position: relative;
+}
+
+.menu-icon line {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+    transform-box: fill-box; 
+}
+
+/* メニュー展開時の「×」への変形 */
+.menu-icon.is-active .line-top {
+    transform: translateY(6px) rotate(45deg);
+}
+.menu-icon.is-active .line-mid {
+    opacity: 0;
+}
+.menu-icon.is-active .line-bottom {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+/* ドロワー本体（右側からスライドイン）*/
+.nav-drawer {
+    position: fixed;
+    top: 0;
+    right: -320px;
+    width: 300px;
+    height: 100%;
+    background-color: #FFF;
+    padding: 80px 24px 40px;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-drawer.is-active {
+    transform: translateX(-320px);
+    z-index: 999;
+}
+
+.drawer-header {
+    border-bottom: 2px solid var(--text-main);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.drawer-title { font-weight: bold; font-size: 1.2rem; }
+
+.drawer-list { list-style: none; }
+
+.drawer-link {
+    display: block;
+    padding: 18px 0;
+    color: var(--text-main);
+    text-decoration: none;
+    font-weight: bold;
+    border-bottom: 1px solid var(--border-color);
+    transition: color 0.2s, padding-left 0.2s;
+}
+
+.drawer-link:hover {
+    color: var(--nintendo-red);
+    padding-left: 10px;
+}
+
+.drawer-note {
+    margin-top: auto;
+    font-size: 0.8rem;
+    color: var(--text-sub);
+    padding-top: 20px;
+}
+
+/* オーバーレイ */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 99;
+}
+
+.menu-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* コンテナ設計 */
+.l-container {
+    width: 100%;
+    max-width: var(--max-content-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+    box-sizing: border-box;
+}
+
+/* コンテナ */
+.product-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
 }

@@ -140,9 +140,35 @@ document.addEventListener('DOMContentLoaded', () => {
         new MediaCarousel(galleryEl, galleryData);
     }
 
-    const stickyFooter = document.querySelector('.mobile-sticky-footer');
-    const wishlistBtn = document.querySelector('.btn-secondary');
+    // ハンバーガーメニュー制御
+    const menuTrigger = document.getElementById('menu-trigger');
+    const navDrawer = document.querySelector('.nav-drawer');
+    const overlay = document.getElementById('menu-overlay');
+    const body = document.body;
 
+    if (menuTrigger && navDrawer && overlay) {
+        function toggleMenu() {
+            const isExpanded = menuTrigger.getAttribute('aria-expanded') === 'true';
+            
+            // 状態の反転 
+            menuTrigger.setAttribute('aria-expanded', !isExpanded);
+            navDrawer.setAttribute('aria-hidden', isExpanded);
+            
+            // クラスの切り替え
+            menuTrigger.classList.toggle('is-active');
+            navDrawer.classList.toggle('is-active');
+            overlay.classList.toggle('is-active');
+            
+            // 背景スクロールロック（操作性の安定） [cite: 42, 47]
+            body.style.overflow = isExpanded ? '' : 'hidden';
+        }
+
+        menuTrigger.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu); // 枠外クリックで閉じる
+    }
+
+    const stickyFooter = document.querySelector('.mobile-sticky-footer');
+    
     if (stickyFooter) {
         window.addEventListener('scroll', () => {
             // window.innerHeight (現在の画面の高さ) を超えたらクラスを付与
@@ -153,7 +179,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, { passive: true }); // パフォーマンス向上のためのオプション
     }
-
+    
+    
+    const wishlistBtn = document.querySelector('.btn-secondary');
 
     if (wishlistBtn) {
         wishlistBtn.addEventListener('click', function(e) {
