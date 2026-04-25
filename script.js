@@ -1,31 +1,126 @@
-/**
- * メディアギャラリーの画像切り替え
- * @param {string} src - 切り替え後の画像URL
- * @param {number} index - 選択されたサムネイルのインデックス
- */
-function changeImage(src, index) {
-    // メイン画像の差し替え
-    const mainImg = document.getElementById('current-image');
-    mainImg.style.opacity = 0; // フェードアウト演出
-    
-    setTimeout(() => {
-        mainImg.src = src;
-        mainImg.style.opacity = 1;
-    }, 150);
+/* メディアギャラリー */
+const galleryData = [
+    { 
+        src: "https://placehold.jp/24/e70009/ffffff/800x450.png?text=Img+1",          // 標準（1x）用
+        src2x: "https://placehold.jp/24/e70009/ffffff/1600x900.png?text=Img+1",    // Retina（2x）用
+        alt: "メインビジュアル1", 
+        thumb: "https://placehold.jp/24/e70009/ffffff/800x450.png?text=Img+1" 
+    },
+    { 
+        src: "https://placehold.jp/24/414548/ffffff/800x450.png?text=Img+2", 
+        src2x: "https://placehold.jp/24/414548/ffffff/1600x900.png?text=Img+2", 
+        alt: "メインビジュアル2", 
+        thumb: "https://placehold.jp/24/414548/ffffff/800x450.png?text=Img+2" 
+    },
+    { 
+        src: "https://placehold.jp/24/989898/ffffff/800x450.png?text=Img+3", 
+        src2x: "https://placehold.jp/24/989898/ffffff/1600x900.png?text=Img+3", 
+        alt: "メインビジュアル3", 
+        thumb: "https://placehold.jp/24/989898/ffffff/800x450.png?text=Img+3" 
+    }
+];
+class MediaCarousel {
+    constructor(element, data) {
+        this.container = element;
+        this.data = data;
+        this.inner = element.querySelector('.slider-inner');
+        this.thumbContainer = element.querySelector('.thumbnails');
+        this.currentIndex = 0;
+        
+        this.totalSlides = data.length; // ボタン用のスライド枚数を取得
+        this.autoPlayInterval = 5000; // オートスライドの間隔(ms)
+        this.timer = null;
+        this.render(); // データを元にHTMLを生成
+        this.init();
+    }
 
-    // サムネイルのアクティブ状態更新
-    const thumbs = document.querySelectorAll('.thumb');
-    thumbs.forEach(t => t.classList.remove('active'));
-    thumbs[index].classList.add('active');
+    render() {
+        // スライド生成
+        this.inner.innerHTML = this.data.map(item => `
+            <div class="slide">
+                <img src="${item.src}" 
+                    srcset="${item.src} 1x, ${item.src2x} 2x" 
+                    alt="${item.alt}">
+            </div>
+        `).join('');
+  
+        // サムネイル生成
+        this.thumbContainer.innerHTML = this.data.map((item, index) => `
+            <img class="thumb ${index === 0 ? 'active' : ''}" 
+                src="${item.thumb || item.src}" 
+                data-index="${index}">
+        `).join('');
+
+        // 生成後に要素を再取得
+        this.thumbs = this.container.querySelectorAll('.thumb');
+    }
+
+    init() {
+        // ボタンのクリックイベント登録 
+        const nextBtn = this.container.querySelector('#next-btn');
+        const prevBtn = this.container.querySelector('#prev-btn');
+        if (nextBtn) nextBtn.addEventListener('click', () => this.next());
+        if (prevBtn) prevBtn.addEventListener('click', () => this.prev());
+
+        this.thumbs.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                this.goTo(parseInt(thumb.dataset.index));
+            });
+        });
+        
+        this.startAutoPlay();
+    }
+
+    goTo(index) {
+        this.currentIndex = index;
+        this.updateView();
+        this.resetAutoPlay();
+    }
+
+    next() {
+        this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
+        this.updateView();
+        this.resetAutoPlay();
+    }
+
+    prev() {
+        this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+        this.updateView();
+        this.resetAutoPlay();
+    }
+
+    updateView() {
+        // スライド移動を実現
+        const offset = this.currentIndex * -100;
+        this.inner.style.transform = `translateX(${offset}%)`;
+
+        // サムネイルのアクティブ状態を更新
+        this.thumbs.forEach((t, i) => {
+            t.classList.toggle('active', i === this.currentIndex);
+        });
+    }
+
+    startAutoPlay() {
+        this.timer = setInterval(() => this.next(), this.autoPlayInterval);
+    }
+
+    resetAutoPlay() {
+        clearInterval(this.timer);
+        this.startAutoPlay();
+    }
 }
 
-// ページ読み込み時の初期化
+// 初期化
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Welcome to My Nontendo Store Parody!");
+    const galleryEl = document.querySelector('.media-gallery');
+    if (galleryEl) {
+        new MediaCarousel(galleryEl, galleryData);
+    }
     
-    // 購入ボタンクリック時のダミーアクション
     const buyButton = document.querySelector('.btn-primary');
-    buyButton.addEventListener('click', () => {
-        alert('この商品は食堂常連客のみの限定コンテンツです。店長の許可を得てから再度お試しください。');
-    });
+    if (buyButton) {
+        buyButton.addEventListener('click', () => {
+            alert('この商品は食堂常連客のみの限定コンテンツです。店長の許可を得てから再度お試しください。');
+        });
+    }
 });

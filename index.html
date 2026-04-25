@@ -37,20 +37,15 @@
     <main class="product-container">
         <section class="hero-section">
             <div class="media-gallery">
-                <div class="main-visual">
-                    <img id="current-image" src="https://placehold.jp/24/e70009/ffffff/800x450.png?text=TEST+Visual"
-                        alt="Main Visual">
+                <div class="slider-viewport">
+                    <div class="slider-inner" id="slider-inner"></div>
+                    
+                    <button class="nav-btn prev-btn" id="prev-btn">＜</button>
+                    <button class="nav-btn next-btn" id="next-btn">＞</button>
                 </div>
-                <div class="thumbnails">
-                    <img class="thumb active" src="https://placehold.jp/24/e70009/ffffff/800x450.png?text=Img+1"
-                        onclick="changeImage(this.src, 0)">
-                    <img class="thumb" src="https://placehold.jp/24/414548/ffffff/800x450.png?text=Img+2"
-                        onclick="changeImage(this.src, 1)">
-                    <img class="thumb" src="https://placehold.jp/24/989898/ffffff/800x450.png?text=Img+3"
-                        onclick="changeImage(this.src, 2)">
-                </div>
+                
+                <div class="thumbnails"></div>
             </div>
-
             <div class="purchase-box">
                 <nav class="breadcrumb">ホーム > ソフト > シミュレーション</nav>
                 <h1 class="product-title">バニーダイナー</h1>

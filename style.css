@@ -72,9 +72,62 @@ body {
 }
 
 /* ギャラリー [5] */
-.main-visual img {
+.slider-viewport {
+    position: relative;
+    overflow: hidden;
     width: 100%;
     border-radius: 12px;
+    background: #000;
+}
+
+.slider-inner {
+    display: flex;
+    transition: transform 0.8s ease;
+    width: 100%;
+}
+
+.slide {
+    flex: 0 0 100%; /* 各スライドをコンテナ幅100%に固定  */
+    width: 100%;
+}
+
+.slide img {
+    width: 100%; /* 画像をスライド幅いっぱいに広げる */
+    height: auto;
+    display: block;
+}
+
+/* 左右ボタン共通のスタイル */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5); /* 半透明の黒  */
+    color: #fff;
+    border: none;
+    padding: 15px 10px;
+    cursor: pointer;
+    font-weight: bold;
+    /* z-index: 10; */
+    transition: background 0.3s, transform 0.1s;
+}
+
+.nav-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.nav-btn:active {
+    transform: translateY(-50%) scale(0.9);
+}
+
+.prev-btn {
+    left: 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.next-btn {
+    right: 0;
+    border-radius: 4px 0 0 4px;
 }
 
 .thumbnails {
