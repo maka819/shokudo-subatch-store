@@ -318,3 +318,24 @@ body {
     color: var(--nintendo-red);
     cursor: pointer;
 }
+
+/* ヘッダーナビのアイコンスタイル */
+.header-nav > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: var(--text-main); /* 既存の変数を使用 */
+    transition: color 0.2s ease, transform 0.1s ease;
+}
+
+.header-nav > div:hover {
+    color: var(--nintendo-red); /* ホバー時に任天堂レッドへ [cite: 89] */
+    transform: scale(1.1);
+}
+
+.header-nav svg {
+    width: 22px; /* アイコンの視覚的な大きさを調整 */
+    height: 22px;
+}
