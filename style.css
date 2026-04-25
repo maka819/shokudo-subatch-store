@@ -108,7 +108,6 @@ body {
     padding: 15px 10px;
     cursor: pointer;
     font-weight: bold;
-    /* z-index: 10; */
     transition: background 0.3s, transform 0.1s;
 }
 
@@ -272,4 +271,45 @@ body {
     text-align: center;
     margin-top: 100px;
     color: var(--text-sub);
+}
+
+/* ハートのエフェクト用スタイル */
+.heart-effect {
+    position: absolute;
+    color: #FF4554;
+    font-size: 1.5rem;
+    pointer-events: none;
+    animation: heart-fly 0.8s ease-out forwards;
+    z-index: 100;
+}
+
+@keyframes heart-fly {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -150%) scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* 追加済みのボタン状態 */
+.btn-secondary.is-added {
+    background-color: var(--bg-gray);
+    color: var(--text-main); /* 少し濃くして読みやすく */
+    border-color: var(--border-color);
+}
+
+/* ボタン押下時のわずかな縮小フィードバック  */
+.btn:active {
+    transform: scale(0.95);
+}
+
+/* 追加済みのボタンのホバー状態（解除を促す） */
+.btn-secondary.is-added:hover {
+    background-color: #fff;
+    border-color: var(--nintendo-red);
+    color: var(--nintendo-red);
+    cursor: pointer;
 }

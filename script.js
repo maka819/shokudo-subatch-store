@@ -110,6 +110,27 @@ class MediaCarousel {
     }
 }
 
+/**
+ * クリック位置にハートを生成する
+ */
+function createHeartEffect(x, y) {
+    const heart = document.createElement('span');
+    heart.className = 'heart-effect';
+    heart.textContent = '❤';
+    
+    // クリック位置（またはボタン中央）に配置
+    heart.style.left = `${x}px`;
+    heart.style.top = `${y}px`;
+    heart.style.position = 'fixed'; // スクロールに対応
+
+    document.body.appendChild(heart);
+
+    // アニメーション終了後に要素を削除（クリーンアップ） 
+    heart.addEventListener('animationend', () => {
+        heart.remove();
+    });
+}
+
 // 初期化
 document.addEventListener('DOMContentLoaded', () => {
     const galleryEl = document.querySelector('.media-gallery');
@@ -117,6 +138,27 @@ document.addEventListener('DOMContentLoaded', () => {
         new MediaCarousel(galleryEl, galleryData);
     }
     
+    const wishlistBtn = document.querySelector('.btn-secondary');
+
+        if (wishlistBtn) {
+            wishlistBtn.addEventListener('click', function(e) {
+                // 現在「追加済み」かどうかを判定
+                const isAdded = this.classList.contains('is-added');
+
+                if (!isAdded) {
+                    // 追加処理
+                    this.classList.add('is-added');
+                    this.textContent = '❤ ほしいものリストに追加済';
+                    createHeartEffect(e.clientX, e.clientY);
+                
+                } else {
+                    // 解除処理
+                    this.classList.remove('is-added');
+                    this.textContent = 'ほしいものリストに追加';
+                }
+            });
+        }
+
     const buyButton = document.querySelector('.btn-primary');
     if (buyButton) {
         buyButton.addEventListener('click', () => {
@@ -124,3 +166,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
