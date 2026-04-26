@@ -1,26 +1,26 @@
 /* メディアギャラリー */
 const galleryData = [
     { 
-        src: "https://placehold.jp/24/e70009/ffffff/800x450.png?text=Img+1",          // 標準（1x）用
-        src2x: "https://placehold.jp/24/e70009/ffffff/1600x900.png?text=Img+1",    // Retina（2x）用
+        src: "./assets/images/carousel/slide1.webp",          // 標準（1x）用
+        src2x: "./assets/images/carousel/slide1@2x.webp",    // Retina（2x）・モーダル（1x）用
         alt: "メインビジュアル1", 
-        fullSrc: "https://placehold.jp/24/e70009/ffffff/2560x1440.png?text=Full+Res+1", // モーダル用
-        thumb: "https://placehold.jp/24/e70009/ffffff/800x450.png?text=Img+1" 
+        fullSrc: "./assets/images/carousel/slide1full.webp", // モーダル（2x）用
+        thumb: "./assets/images/carousel/slide1.webp" 
     },
     { 
-        src: "https://placehold.jp/24/414548/ffffff/800x450.png?text=Img+2", 
-        src2x: "https://placehold.jp/24/414548/ffffff/1600x900.png?text=Img+2", 
-        alt: "メインビジュアル2", 
-        fullSrc: "https://placehold.jp/24/e70009/ffffff/2560x1440.png?text=Full+Res+2",
-        thumb: "https://placehold.jp/24/414548/ffffff/800x450.png?text=Img+2" 
+        src: "./assets/images/carousel/slide2.webp",
+        src2x: "./assets/images/carousel/slide2@2x.webp",
+        alt: "メインビジュアル1", 
+        fullSrc: "./assets/images/carousel/slide2full.webp",
+        thumb: "./assets/images/carousel/slide2.webp" 
     },
     { 
-        src: "https://placehold.jp/24/989898/ffffff/800x450.png?text=Img+3", 
-        src2x: "https://placehold.jp/24/989898/ffffff/1600x900.png?text=Img+3", 
-        alt: "メインビジュアル3", 
-        fullSrc: "https://placehold.jp/24/e70009/ffffff/2560x1440.png?text=Full+Res+3",
-        thumb: "https://placehold.jp/24/989898/ffffff/800x450.png?text=Img+3" 
-    }
+        src: "./assets/images/carousel/slide3.webp",
+        src2x: "./assets/images/carousel/slide3@2x.webp",
+        alt: "メインビジュアル1", 
+        fullSrc: "./assets/images/carousel/slide3full.webp",
+        thumb: "./assets/images/carousel/slide3.webp" 
+    },
 ];
 class MediaCarousel {
     constructor(element, data) {
