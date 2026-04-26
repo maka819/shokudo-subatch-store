@@ -4,18 +4,21 @@ const galleryData = [
         src: "https://placehold.jp/24/e70009/ffffff/800x450.png?text=Img+1",          // 標準（1x）用
         src2x: "https://placehold.jp/24/e70009/ffffff/1600x900.png?text=Img+1",    // Retina（2x）用
         alt: "メインビジュアル1", 
+        fullSrc: "https://placehold.jp/24/e70009/ffffff/2560x1440.png?text=Full+Res+1", // モーダル用
         thumb: "https://placehold.jp/24/e70009/ffffff/800x450.png?text=Img+1" 
     },
     { 
         src: "https://placehold.jp/24/414548/ffffff/800x450.png?text=Img+2", 
         src2x: "https://placehold.jp/24/414548/ffffff/1600x900.png?text=Img+2", 
         alt: "メインビジュアル2", 
+        fullSrc: "https://placehold.jp/24/e70009/ffffff/2560x1440.png?text=Full+Res+2",
         thumb: "https://placehold.jp/24/414548/ffffff/800x450.png?text=Img+2" 
     },
     { 
         src: "https://placehold.jp/24/989898/ffffff/800x450.png?text=Img+3", 
         src2x: "https://placehold.jp/24/989898/ffffff/1600x900.png?text=Img+3", 
         alt: "メインビジュアル3", 
+        fullSrc: "https://placehold.jp/24/e70009/ffffff/2560x1440.png?text=Full+Res+3",
         thumb: "https://placehold.jp/24/989898/ffffff/800x450.png?text=Img+3" 
     }
 ];
@@ -30,6 +33,12 @@ class MediaCarousel {
         this.totalSlides = data.length; // ボタン用のスライド枚数を取得
         this.autoPlayInterval = 5000; // オートスライドの間隔(ms)
         this.timer = null;
+
+        // モーダル関連
+        this.modal = document.getElementById('image-modal');
+        this.modalImg = document.getElementById('modal-img');
+        this.modalClose = document.getElementById('modal-close');
+
         this.render(); // データを元にHTMLを生成
         this.init();
     }
@@ -38,11 +47,15 @@ class MediaCarousel {
 
         if (!this.inner || !this.thumbContainer) return; // 要素がない場合は何もしない
         // スライド生成
-        this.inner.innerHTML = this.data.map(item => `
+        this.inner.innerHTML = this.data.map((item, index) => `
             <div class="slide">
-                <img src="${item.src}" 
+                <img 
+                    src="${item.src}" 
                     srcset="${item.src} 1x, ${item.src2x} 2x" 
-                    alt="${item.alt}">
+                    alt="${item.alt}" 
+                    data-index="${index}" 
+                    tabindex="0"
+                >
             </div>
         `).join('');
   
@@ -58,6 +71,8 @@ class MediaCarousel {
     }
 
     init() {
+        this.render(); // まず描画
+        this.update(); // 初期位置設定
         // ボタンのクリックイベント登録 
         const nextBtn = this.container.querySelector('#next-btn');
         const prevBtn = this.container.querySelector('#prev-btn');
@@ -69,29 +84,57 @@ class MediaCarousel {
                 this.goTo(parseInt(thumb.dataset.index));
             });
         });
-        
+
+        // スライド画像にクリックイベント付与
+        const slideImages = this.inner.querySelectorAll('img');
+        slideImages.forEach(img => {
+            img.style.cursor = 'zoom-in';
+            
+            const handleOpen = () => {
+                const index = img.dataset.index;
+                const item = this.data[index];
+                this.openModal(item.fullSrc, item.src2x); 
+            };
+
+            img.addEventListener('click', handleOpen);
+            img.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') handleOpen();
+            });
+        });
+
+        // モーダルを閉じるイベント登録
+        if (this.modalClose) this.modalClose.onclick = () => this.closeModal();
+        if (this.modal) {
+            this.modal.onclick = (e) => { if (e.target === this.modal) this.closeModal(); };
+        }
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.modal.classList.contains('is-active')) {
+                this.closeModal();
+            }
+        });
+
         this.startAutoPlay();
     }
 
     goTo(index) {
         this.currentIndex = index;
-        this.updateView();
+        this.update();
         this.resetAutoPlay();
     }
 
     next() {
         this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
-        this.updateView();
+        this.update();
         this.resetAutoPlay();
     }
 
     prev() {
         this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
-        this.updateView();
+        this.update();
         this.resetAutoPlay();
     }
 
-    updateView() {
+    update() {
         // スライド移動を実現
         const offset = this.currentIndex * -100;
         this.inner.style.transform = `translateX(${offset}%)`;
@@ -100,6 +143,21 @@ class MediaCarousel {
         this.thumbs.forEach((t, i) => {
             t.classList.toggle('active', i === this.currentIndex);
         });
+    }
+
+    // モーダル制御用メソッド
+    openModal(fullSrc, src2x) {
+        this.modalImg.src = fullSrc;
+        this.modalImg.srcset = `${src2x} 1x, ${fullSrc} 2x`;
+        this.modal.classList.add('is-active');
+        this.modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    closeModal() {
+        this.modal.classList.remove('is-active');
+        this.modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
     }
 
     startAutoPlay() {
